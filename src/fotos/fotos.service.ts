@@ -4,7 +4,8 @@ import { Between, ILike, Repository } from 'typeorm';
 import { Foto } from './entities/foto.entity.js';
 
 export interface FiltroFotos {
-  min: number; max: number; q?: string | undefined; page: number; limit: number;
+  min: number; max: number; q?: string | undefined; page: number; 
+  limit: number; etiqueta?: string | undefined; orden?: string | undefined;
 }
 
 @Injectable()
@@ -14,14 +15,17 @@ export class FotosService {
     private readonly fotosRepo: Repository<Foto>,
   ) {}
 
-  async findAll({ min, max, q, page, limit }: FiltroFotos) {
+  async findAll({ min, max, q, page, limit, etiqueta, orden }: FiltroFotos) {
     const [data, total] = await this.fotosRepo.findAndCount({
       where: {
         calificacion: Between(min, max),
         ...(q && { titulo: ILike(`%${q}%`) }),
+        ...(etiqueta && { etiquetas: { texto: etiqueta } }),
       },
-      relations: { etiquetas: true },
-      order: { id: 'ASC' },
+      relations: { album: true, etiquetas: true },
+      order: orden === 'asc' ? { calificacion: 'ASC', id: 'ASC' }
+        : orden === 'desc' ? { calificacion: 'DESC', id: 'ASC' }
+        : { id: 'ASC' },
       skip: (page - 1) * limit,
       take: limit,
     });

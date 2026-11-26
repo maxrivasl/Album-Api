@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, JoinTable , ManyToMany , PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinTable , ManyToMany , ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { Album } from '../../albumes/entities/album.entity.js';
 import { Etiqueta } from './etiqueta.entity.js';
 
@@ -29,7 +29,7 @@ export class Foto {
     updatedAt: Date;
 
     // N:1 Muchas fotos pertenecen a un álbum 
-    @ManyToMany (() => Album, (album) => album.fotos, {
+    @ManyToOne (() => Album, (album) => album.fotos, {
         onDelete: 'SET NULL',
         nullable: true,
     })
