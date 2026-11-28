@@ -1,0 +1,22 @@
+@api = http://localhost:3000/api
+
+### Listar con filtros
+GET {{api}}/fotos?min=3&max=5&q=foto&page=1&limit=5
+
+### Crear
+POST {{api}}/fotos
+Content-Type: application/json
+
+{
+"titulo": "Cerro Santa Ana",
+"calificacion": 4.8,
+"ruta": "https://picsum.photos/id/1/600/400",
+"albumId": 2,
+"etiquetas": ["ciudad", "faro"]
+}
+
+### Actualizar parcialmente
+PATCH {{api}}/fotos/21
+Content-Type: application/json
+
+{ "calificacion": 5 }
