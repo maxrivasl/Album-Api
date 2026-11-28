@@ -20,3 +20,79 @@ PATCH {{api}}/fotos/21
 Content-Type: application/json
 
 { "calificacion": 5 }
+
+### Listar álbumes
+GET {{api}}/albumes
+
+
+### Crear álbum
+POST {{api}}/albumes
+Content-Type: application/json
+
+{
+    "nombre": "Vacaciones"
+}
+
+
+### Crear álbum duplicado (409)
+POST {{api}}/albumes
+Content-Type: application/json
+
+{
+    "nombre": "Vacaciones"
+}
+
+
+### Actualizar álbum
+PATCH {{api}}/albumes/4
+Content-Type: application/json
+
+{
+    "nombre": "Vacaciones Ecuador"
+}
+
+
+### Validar nombre obligatorio
+POST {{api}}/albumes
+Content-Type: application/json
+
+{
+    "nombre": ""
+}
+
+
+### Validar foto con mensajes en español
+POST {{api}}/fotos
+Content-Type: application/json
+
+{
+    "titulo": "",
+    "calificacion": 9,
+    "ruta": "no-url",
+    "hack": 1
+}
+
+
+### Crear foto perteneciente al álbum
+POST {{api}}/fotos
+Content-Type: application/json
+
+{
+    "titulo": "Foto vacaciones",
+    "calificacion": 4.5,
+    "ruta": "https://picsum.photos/id/1/600/400",
+    "albumId": 4,
+    "etiquetas": ["playa"]
+}
+
+
+### Eliminar álbum
+DELETE {{api}}/albumes/4
+
+
+### Comprobar álbum eliminado
+GET {{api}}/albumes/4/fotos
+
+
+### Comprobar que la foto conserva sus datos
+GET {{api}}/fotos/21
